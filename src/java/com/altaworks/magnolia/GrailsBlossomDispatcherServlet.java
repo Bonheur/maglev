@@ -18,9 +18,6 @@ import org.codehaus.groovy.grails.web.pages.GroovyPageOutputStack;
 import org.codehaus.groovy.grails.web.servlet.GrailsDispatcherServlet;
 import org.codehaus.groovy.grails.web.servlet.WrappedResponseHolder;
 import org.codehaus.groovy.grails.web.util.IncludeResponseWrapper;
-import org.hibernate.FlushMode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -167,28 +164,6 @@ public class GrailsBlossomDispatcherServlet extends GrailsDispatcherServlet impl
 	}
 
 
-	private void unbindHibernateSession() {
-		SessionFactory sessionFactory = (SessionFactory) ApplicationHolder.getApplication().getMainContext().getBean("sessionFactory");
-		SessionHolder sessionHolder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
-		try {
-			if (!FlushMode.MANUAL.equals(sessionHolder.getSession().getFlushMode())) {
-				sessionHolder.getSession().flush();
-			}
-		} catch (Exception e) {
-			if (logger.isErrorEnabled()) logger.error("Cannot flush Hibernate Sesssion, error will be ignored", e);
-		} finally {
-			TransactionSynchronizationManager.unbindResource(sessionFactory);
-			SessionFactoryUtils.closeSession(sessionHolder.getSession());
-			if (logger.isDebugEnabled()) logger.debug("Hibernate Session is unbounded from Job thread and closed");
-		}
-	}
-
-	private void bindHibernateSession() {
-		SessionFactory sessionFactory = (SessionFactory) ApplicationHolder.getApplication().getMainContext().getBean("sessionFactory");
-		Session session = SessionFactoryUtils.getSession(sessionFactory, true);
-		session.setFlushMode(FlushMode.AUTO);
-		TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
-	}
 
 }
 
