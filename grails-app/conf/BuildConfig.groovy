@@ -4,6 +4,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.dependency.resolution = {
 
     inherits("global") {
+        excludes 'hibernate'
 
     }
     log "warn"
