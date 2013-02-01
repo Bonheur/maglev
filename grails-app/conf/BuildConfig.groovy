@@ -23,7 +23,7 @@ grails.project.dependency.resolution = {
         mavenRepo "http://nexus.magnolia-cms.com/content/groups/public/"
     }
     dependencies {
-        String magnoliaVersion = "4.5.2"
+        String magnoliaVersion = "4.5.7"
 
         runtime('info.magnolia:magnolia-core:' + magnoliaVersion) {
             exclude 'slf4j-log4j12'
@@ -70,13 +70,13 @@ grails.project.dependency.resolution = {
         runtime('net.sourceforge.openutils:openutils-log4j:2.0.5') {
             exclude group: 'commons-logging', name: 'commons-logging'
         }
-        runtime('info.magnolia:magnolia-module-blossom:2.0') {
+        runtime('info.magnolia:magnolia-module-blossom:2.0.1') {
             exclude group: 'commons-logging', name: 'commons-logging'
         }
     }
 
     plugins {
-        build ":release:1.0.1"
+        build ":release:2.2.0"
     }
 
 }

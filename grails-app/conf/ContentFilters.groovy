@@ -1,5 +1,6 @@
 import info.magnolia.context.MgnlContext
 import info.magnolia.jcr.util.ContentMap
+import info.magnolia.jcr.wrapper.I18nNodeWrapper
 import info.magnolia.module.blossom.render.RenderContext
 
 /**
@@ -14,7 +15,7 @@ class ContentFilters {
                     if (MgnlContext.aggregationState) {
                         model.put("state",MgnlContext.aggregationState)
                         if (MgnlContext.aggregationState.currentContent) {
-                            model.put("content", new ContentMap((javax.jcr.Node) MgnlContext.aggregationState.currentContent.JCRNode))
+                            model.put("content", new ContentMap(new I18nNodeWrapper(MgnlContext.aggregationState.currentContent.getJCRNode())))
 
                             if(RenderContext.get()){
                                 model.putAll(RenderContext.get().contextObjects)
